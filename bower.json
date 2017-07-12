@@ -12,7 +12,8 @@
   ],
   "private": true,
   "main": [
-    "http-method-selector.html"
+    "http-method-selector.html",
+    "http-method-selector-mini.html"
   ],
   "repository": {
     "type": "git",

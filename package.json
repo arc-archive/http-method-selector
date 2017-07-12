@@ -16,7 +16,7 @@
   "author": "The Advanced REST client authors <arc@mulesoft.com>",
   "scripts": {
     "serve": "node_modules/.bin/polymer serve",
-    "lint": "node_modules/.bin/polymer lint http-method-selector.html",
+    "lint": "node_modules/.bin/polymer lint http-method-selector.html http-method-selector-mini.html",
     "test-sauce": "node_modules/.bin/polymer test --plugin sauce --job-name \"http-method-selector:local-test\"",
     "test": "node_modules/.bin/polymer test",
     "deps": "npm install --quiet && bower install --quiet",
