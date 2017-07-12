@@ -11,7 +11,8 @@
   },
   "private": false,
   "main": [
-    "http-method-selector.html"
+    "http-method-selector.html",
+    "http-method-selector-mini.html"
   ],
   "author": "The Advanced REST client authors <arc@mulesoft.com>",
   "scripts": {
