@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright 2016 The Advanced REST client authors <arc@mulesoft.com>
+Copyright 2017 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
 the License at
@@ -12,8 +12,6 @@ License for the specific language governing permissions and limitations under
 the License.
 -->
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../paper-radio-group/paper-radio-group.html">
-<link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
@@ -23,16 +21,11 @@ the License.
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="http-method-selector-behavior.html">
 <!--
-A HTTP method selector. Displays list of radio buttons with common
-http methods and a dropdown with less common but still valid methods.
-
-User can define his own methos whe selects "custom" option in the dropdown menu.
-Because of this the element do not support validation of any kind and hosting
-application should provide one if required.
+A HTTP method selector in a dropdown list of predefined HTTP methods.
 
 ### Example
 ```
-<http-method-selector></http-method-selector>
+<http-method-selector-mini></http-method-selector-mini>
 ```
 
 ### Styling
@@ -40,33 +33,36 @@ application should provide one if required.
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--http-method-selector` | Mixin applied to the element | `{}`
-`--http-method-selector-dropdown` | Mixin applied to the dropdown field | `{}`
-`--http-method-selector-input` | Mixin applied to the custom input field | `{}`
+`--http-method-selector-mini` | Mixin applied to the element | `{}`
+`--http-method-selector-mini-dropdown-width` | Width of the dropdown field | `100px`
+`--http-method-selector-mini-input-width` | Width of the custom input field | `100px`
+`--http-method-selector-mini-dropdown` | Mixin applied to the dropdown field | `{}`
+`--http-method-selector-mini-input` | Mixin applied to the custom input field | `{}`
 `--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
 `--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
 `--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
 
 @group UI Elements
-@element http-method-selector
-@demo demo/index.html
+@element http-method-selector-mini
+@demo demo/mini.html Demo for the "mini" version
 -->
-<dom-module id="http-method-selector">
+<dom-module id="http-method-selector-mini">
   <template>
     <style>
-     :host {
+    :host {
       display: block;
-      @apply --http-method-selector;
+      @apply --http-method-selector-mini;
     }
 
     paper-dropdown-menu {
-      margin-left: 16px;
-      @apply --http-method-selector-dropdown;
+      width: var(--http-method-selector-mini-dropdown-width, 100px);
+      @apply --http-method-selector-mini-dropdown;
     }
 
     .custom-name {
       display: inline-block;
-      @apply --http-method-selector-input;
+      width: var(--http-method-selector-mini-input-width, 100px);
+      @apply --http-method-selector-mini-input;
     }
 
     #closeCustom {
@@ -82,30 +78,28 @@ Custom property | Description | Default
       color: var(--from-row-action-icon-color-hover, var(--accent-color, rgba(0, 0, 0, 0.74)));
     }
     </style>
-    <paper-radio-group selected="{{method}}">
-      <paper-radio-button name="GET">GET</paper-radio-button>
-      <paper-radio-button name="POST">POST</paper-radio-button>
-      <paper-radio-button name="PUT">PUT</paper-radio-button>
-      <paper-radio-button name="DELETE">DELETE</paper-radio-button>
-      <paper-radio-button name="PATCH">PATCH</paper-radio-button>
-    </paper-radio-group>
-    <paper-dropdown-menu label="Other methods" opened="{{methodMenuOpened}}" hidden$="[[showCustom]]">
+    <paper-dropdown-menu label="Method" opened="{{methodMenuOpened}}" hidden$="[[showCustom]]">
       <paper-listbox class="dropdown-content" selected="{{method}}" attr-for-selected="data-method">
+        <paper-item data-method="GET">GET</paper-item>
+        <paper-item data-method="POST">POST</paper-item>
+        <paper-item data-method="PUT">PUT</paper-item>
+        <paper-item data-method="DELETE">DELETE</paper-item>
+        <paper-item data-method="PATCH">PATCH</paper-item>
         <paper-item data-method="HEAD">HEAD</paper-item>
         <paper-item data-method="CONNECT">CONNECT</paper-item>
         <paper-item data-method="OPTIONS">OPTIONS</paper-item>
         <paper-item data-method="TRACE">TRACE</paper-item>
-        <paper-item data-method="">custom</paper-item>
+        <paper-item data-method="">Custom</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-    <paper-input class="custom-name" label="Custom method" required auto-validate inline hidden$="[[!showCustom]]" value="{{method}}">
+    <paper-input class="custom-name" label="Method" required auto-validate inline hidden$="[[!showCustom]]" value="{{method}}">
       <paper-icon-button id="closeCustom" suffix icon="arc:close" on-tap="closeCustom"></paper-icon-button>
     </paper-input>
-    <paper-tooltip animation-delay="200" for="closeCustom">Clear and close custom editor</paper-tooltip>
+    <paper-tooltip animation-delay="200" for="closeCustom">Clear and opend standard dropdown</paper-tooltip>
   </template>
   <script>
   Polymer({
-    is: 'http-method-selector',
+    is: 'http-method-selector-mini',
 
     behaviors: [
       ArcBehaviors.HttpMethodSelectorBehavior

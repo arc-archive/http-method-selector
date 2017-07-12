@@ -20,6 +20,41 @@ application should provide one if required.
 Custom property | Description | Default
 ----------------|-------------|----------
 `--http-method-selector` | Mixin applied to the element | `{}`
+`--http-method-selector-dropdown` | Mixin applied to the dropdown field | `{}`
+`--http-method-selector-input` | Mixin applied to the custom input field | `{}`
+`--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
+`--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
+`--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
+
+
+
+### Events
+| Name | Description | Params |
+| --- | --- | --- |
+| request-is-payload-changed | Fired when the `isPayload` computed property value chnage. | value **Boolean** - Current state. |
+| request-method-changed | Fired when a method has been selected. | value **Boolean** - Current HTTP method name. |
+# http-method-selector-mini
+
+A HTTP method selector in a dropdown list of predefined HTTP methods.
+
+### Example
+```
+<http-method-selector-mini></http-method-selector-mini>
+```
+
+### Styling
+`<http-method-selector>` provides the following custom properties and mixins for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--http-method-selector-mini` | Mixin applied to the element | `{}`
+`--http-method-selector-mini-dropdown-width` | Width of the dropdown field | `100px`
+`--http-method-selector-mini-input-width` | Width of the custom input field | `100px`
+`--http-method-selector-mini-dropdown` | Mixin applied to the dropdown field | `{}`
+`--http-method-selector-mini-input` | Mixin applied to the custom input field | `{}`
+`--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
+`--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
+`--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
 
 
 
