@@ -34,6 +34,13 @@ A HTTP method selector in a dropdown list of predefined HTTP methods.
 Custom property | Description | Default
 ----------------|-------------|----------
 `--http-method-selector-mini` | Mixin applied to the element | `{}`
+`--http-method-selector-mini-dropdown-width` | Width of the dropdown field | `100px`
+`--http-method-selector-mini-input-width` | Width of the custom input field | `100px`
+`--http-method-selector-mini-dropdown` | Mixin applied to the dropdown field | `{}`
+`--http-method-selector-mini-input` | Mixin applied to the custom input field | `{}`
+`--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
+`--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
+`--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
 
 @group UI Elements
 @element http-method-selector
@@ -62,6 +69,13 @@ Custom property | Description | Default
       padding: 0;
       width: 24px;
       height: 24px;
+      color: var(--from-row-action-icon-color, var(--icon-button-color, rgba(0, 0, 0, 0.74)));
+      transition: color 0.2s linear;
+      @apply --http-method-selector-custom-close-button;
+    }
+
+    #closeCustom:hover {
+      color: var(--from-row-action-icon-color-hover, var(--accent-color, rgba(0, 0, 0, 0.74)));
     }
     </style>
     <paper-dropdown-menu label="Method" opened="{{methodMenuOpened}}" hidden$="[[showCustom]]">
