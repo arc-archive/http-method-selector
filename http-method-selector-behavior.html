@@ -70,7 +70,8 @@ var HttpMethodSelectorBehaviorImpl = {
   },
 
   observers: [
-    '_methodChanged(method)'
+    '_methodChanged(method)',
+    '_dropdownMenuOpened(methodMenuOpened, method)'
   ],
 
   _attachListeners: function(node) {
@@ -132,6 +133,33 @@ var HttpMethodSelectorBehaviorImpl = {
     this.__cancelMethodEvent = true;
     this.set('method', e.detail.value);
     this.__cancelMethodEvent = undefined;
+  },
+
+  closeCustom: function() {
+    this.showCustom = false;
+    this.set('method', 'GET');
+  },
+
+  /**
+   * Checks if there is an empty method name and if it is it will set `showCustom` property
+   * that constrolls display of a custom method input.
+   */
+  _dropdownMenuOpened: function(opened, method) {
+    if (!opened && method === '') {
+      this.showCustom = true;
+      this.async(function() {
+        this.$$('paper-input').focus();
+      }, 1);
+    } else if (method) {
+      var m = method && method.toLowerCase();
+      if (!m) {
+        return;
+      }
+      m = m.trim();
+      if (this.standardMethods.indexOf(m) === -1) {
+        this.showCustom = true;
+      }
+    }
   }
 };
 

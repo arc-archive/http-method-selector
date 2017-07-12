@@ -17,8 +17,10 @@ the License.
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
-<link rel="import" href="../paper-input/paper-input-container.html">
-<link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../arc-icons/arc-icons.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="http-method-selector-behavior.html">
 <!--
 A HTTP method selector. Displays list of radio buttons with common
@@ -52,13 +54,17 @@ Custom property | Description | Default
     }
 
     .custom-name {
-      --paper-input-container: {
-        display: inline-block;
-      }
+      display: inline-block;
     }
 
     paper-dropdown-menu {
       margin-left: 16px;
+    }
+
+    #closeCustom {
+      padding: 0;
+      width: 24px;
+      height: 24px;
     }
     </style>
     <paper-radio-group selected="{{method}}">
@@ -77,10 +83,10 @@ Custom property | Description | Default
         <paper-item data-method="">custom</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-    <paper-input-container class="custom-name" inline hidden$="[[!showCustom]]">
-      <label>Custom method</label>
-      <input is="iron-input" type="text" value="{{method::input}}" placeholder="Method name">
-    </paper-input-container>
+    <paper-input class="custom-name" label="Custom method" required auto-validate inline hidden$="[[!showCustom]]" value="{{method}}">
+      <paper-icon-button id="closeCustom" suffix icon="arc:close" on-tap="closeCustom"></paper-icon-button>
+    </paper-input>
+    <paper-tooltip animation-delay="200" for="closeCustom">Clear and close custom editor</paper-tooltip>
   </template>
   <script>
   Polymer({
@@ -88,35 +94,7 @@ Custom property | Description | Default
 
     behaviors: [
       ArcBehaviors.HttpMethodSelectorBehavior
-    ],
-
-    observers: [
-      '_dropdownMenuOpened(methodMenuOpened, method)'
-    ],
-
-    /**
-     * Checks if there is an empty method name and if it is it will set `showCustom` property
-     * that constrolls display of a custom method input.
-     */
-    _dropdownMenuOpened: function(opened, method) {
-      if (!opened && method === '') {
-        this.set('showCustom', true);
-        this.async(function() {
-          this.$$('input[is="iron-input"]').focus();
-        }, 1);
-      } else {
-        var m = method && method.toLowerCase();
-        if (!m) {
-          return;
-        }
-        m = m.trim();
-        if (this.standardMethods.indexOf(m) !== -1) {
-          this.set('showCustom', false);
-        } else {
-          this.set('showCustom', true);
-        }
-      }
-    }
+    ]
   });
   </script>
 </dom-module>

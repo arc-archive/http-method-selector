@@ -53,10 +53,7 @@ Custom property | Description | Default
     }
 
     .custom-name {
-      --paper-input-container: {
-        display: inline-block;
-      };
-
+      display: inline-block;
       width: var(--http-method-selector-mini-input-width, 100px);
       @apply --http-method-selector-mini-input;
     }
@@ -92,37 +89,7 @@ Custom property | Description | Default
 
     behaviors: [
       ArcBehaviors.HttpMethodSelectorBehavior
-    ],
-
-    observers: [
-      '_dropdownMenuOpened(methodMenuOpened, method)'
-    ],
-    /**
-     * Checks if there is an empty method name and if it is it will set `showCustom` property
-     * that constrolls display of a custom method input.
-     */
-    _dropdownMenuOpened: function(opened, method) {
-      if (!opened && method === '') {
-        this.showCustom = true;
-        this.async(function() {
-          this.$$('paper-input').focus();
-        }, 1);
-      } else if (method) {
-        var m = method && method.toLowerCase();
-        if (!m) {
-          return;
-        }
-        m = m.trim();
-        if (this.standardMethods.indexOf(m) === -1) {
-          this.showCustom = true;
-        }
-      }
-    },
-
-    closeCustom: function() {
-      this.showCustom = false;
-      this.set('method', 'GET');
-    }
+    ]
   });
   </script>
 </dom-module>
