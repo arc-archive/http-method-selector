@@ -29,7 +29,8 @@
     "iron-input": "PolymerElements/iron-input#^1.0.11",
     "paper-icon-button": "PolymerElements/paper-icon-button#<2",
     "arc-icons": "advanced-rest-client/arc-icons#^1.0.22",
-    "paper-tooltip": "PolymerElements/paper-tooltip#<2"
+    "paper-tooltip": "PolymerElements/paper-tooltip#<2",
+    "events-target-behavior": "advanced-rest-client/events-target-behavior#^0.1.1"
   },
   "devDependencies": {
     "iron-component-page": "polymerelements/iron-component-page#1.0.0",
