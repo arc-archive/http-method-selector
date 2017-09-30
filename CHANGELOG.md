@@ -1,3 +1,13 @@
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/advanced-rest-client/http-method-selector/compare/0.1.2...0.1.4) (2017-09-30)
+
+
+### Update
+
+* Updated annotations for linter ([23a17227e0ac4a597530c814bcdbe8184a1bce37](https://github.com/advanced-rest-client/http-method-selector/commit/23a17227e0ac4a597530c814bcdbe8184a1bce37))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/advanced-rest-client/http-method-selector/compare/0.1.2...v0.1.3) (2017-07-12)
 
