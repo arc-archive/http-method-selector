@@ -22,7 +22,6 @@ ArcBehaviors = ArcBehaviors || {};
  * A behavior to share common code between both method selectors.
  *
  * @polymerBehavior ArcBehaviors.HttpMethodSelectorBehavior
- * @group UI Elements
  */
 var HttpMethodSelectorBehaviorImpl = {
   /**
@@ -162,7 +161,7 @@ var HttpMethodSelectorBehaviorImpl = {
     }
   }
 };
-
+/** @polymerBehavior */
 window.ArcBehaviors.HttpMethodSelectorBehavior = [
   ArcBehaviors.EventsTargetBehavior,
   HttpMethodSelectorBehaviorImpl
