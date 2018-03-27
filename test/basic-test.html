@@ -1,23 +1,10 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/test-helpers.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
-
     <link rel="import" href="../http-method-selector.html">
   </head>
   <body>
@@ -30,19 +17,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <script>
     /* global fixture, assert */
-    suite('basic', function() {
-      var element;
-      setup(function() {
+    suite('basic', () => {
+      let element;
+      setup(() => {
         element = fixture('basic');
       });
-      test('isPayload is false for GET method', function() {
+      test('isPayload is false for GET method', () => {
         assert.isFalse(element.isPayload);
       });
-      test('isPayload is false for HEAD method', function() {
+      test('isPayload is false for HEAD method', () => {
         element.method = 'HEAD';
         assert.isFalse(element.isPayload);
       });
-      test('isPayload is true for other methods', function() {
+      test('isPayload is true for other methods', () => {
         element.method = 'PUT';
         assert.isTrue(element.isPayload);
         element.method = 'POST';
@@ -52,15 +39,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         element.method = 'PATCH';
         assert.isTrue(element.isPayload);
       });
-      test('isPayload is true for non-standard method', function() {
+      test('isPayload is true for non-standard method', () => {
         element.method = 'X-METHOD';
         assert.isTrue(element.isPayload);
       });
-      test('showCustom is false for standard method', function() {
+      test('showCustom is false for standard method', () => {
         element.method = 'HEAD';
         assert.isFalse(element.showCustom);
       });
-      test('showCustom is true for non-standard method', function() {
+      test('showCustom is true for non-standard method', () => {
         element.method = 'X-METHOD';
         assert.isTrue(element.showCustom);
       });

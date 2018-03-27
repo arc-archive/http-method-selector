@@ -18,34 +18,8 @@ the License.
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../arc-icons/arc-icons.html">
-<link rel="import" href="../paper-tooltip/paper-tooltip.html">
-<link rel="import" href="http-method-selector-behavior.html">
-<!--
-A HTTP method selector in a dropdown list of predefined HTTP methods.
-
-### Example
-```
-<http-method-selector-mini></http-method-selector-mini>
-```
-
-### Styling
-`<http-method-selector>` provides the following custom properties and mixins for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--http-method-selector-mini` | Mixin applied to the element | `{}`
-`--http-method-selector-mini-dropdown-width` | Width of the dropdown field | `100px`
-`--http-method-selector-mini-input-width` | Width of the custom input field | `100px`
-`--http-method-selector-mini-dropdown` | Mixin applied to the dropdown field | `{}`
-`--http-method-selector-mini-input` | Mixin applied to the custom input field | `{}`
-`--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
-`--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
-`--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
-
-@group UI Elements
-@element http-method-selector-mini
-@demo demo/mini.html Demo for the "mini" version
--->
+<link rel="import" href="../events-target-behavior/events-target-behavior.html">
+<link rel="import" href="http-method-selector-mixin.html">
 <dom-module id="http-method-selector-mini">
   <template>
     <style>
@@ -77,9 +51,13 @@ Custom property | Description | Default
     #closeCustom:hover {
       color: var(--from-row-action-icon-color-hover, var(--accent-color, rgba(0, 0, 0, 0.74)));
     }
+
+    [hidden] {
+      display: none !important;
+    }
     </style>
     <paper-dropdown-menu label="Method" opened="{{methodMenuOpened}}" hidden$="[[showCustom]]">
-      <paper-listbox class="dropdown-content" selected="{{method}}" attr-for-selected="data-method">
+      <paper-listbox slot="dropdown-content" selected="{{method}}" attr-for-selected="data-method">
         <paper-item data-method="GET">GET</paper-item>
         <paper-item data-method="POST">POST</paper-item>
         <paper-item data-method="PUT">PUT</paper-item>
@@ -93,17 +71,44 @@ Custom property | Description | Default
       </paper-listbox>
     </paper-dropdown-menu>
     <paper-input class="custom-name" label="Method" required auto-validate inline hidden$="[[!showCustom]]" value="{{method}}">
-      <paper-icon-button id="closeCustom" suffix icon="arc:close" on-tap="closeCustom"></paper-icon-button>
+      <paper-icon-button slot="suffix" icon="arc:close" on-tap="closeCustom" title="Clear and opend standard dropdown"></paper-icon-button>
     </paper-input>
-    <paper-tooltip animation-delay="200" for="closeCustom">Clear and opend standard dropdown</paper-tooltip>
   </template>
   <script>
-  Polymer({
-    is: 'http-method-selector-mini',
-
-    behaviors: [
-      ArcBehaviors.HttpMethodSelectorBehavior
-    ]
-  });
+  /**
+   * A HTTP method selector in a dropdown list of predefined HTTP methods.
+   *
+   * ### Example
+   *
+   * ```html
+   * <http-method-selector-mini></http-method-selector-mini>
+   * ```
+   *
+   * ### Styling
+   *
+   * `<http-method-selector>` provides the following custom properties and mixins for styling:
+   *
+   * Custom property | Description | Default
+   * ----------------|-------------|----------
+   * `--http-method-selector-mini` | Mixin applied to the element | `{}`
+   * `--http-method-selector-mini-dropdown-width` | Width of the dropdown field | `100px`
+   * `--http-method-selector-mini-input-width` | Width of the custom input field | `100px`
+   * `--http-method-selector-mini-dropdown` | Mixin applied to the dropdown field | `{}`
+   * `--http-method-selector-mini-input` | Mixin applied to the custom input field | `{}`
+   * `--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
+   * `--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
+   * `--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
+   *
+   * @customElement
+   * @polymer
+   * demo/mini.html
+   * @memberof UiElements
+   * @appliesMixin ArcBehaviors.EventsTargetBehavior
+   * @appliesMixin ArcBehaviors.HttpMethodSelectorMixin
+   */
+  class HttpMethodSelectorMini extends ArcBehaviors.HttpMethodSelectorMixin(ArcBehaviors.EventsTargetBehavior(Polymer.Element)) {
+    static get is() { return 'http-method-selector-mini'; }
+  }
+  window.customElements.define(HttpMethodSelectorMini.is, HttpMethodSelectorMini);
   </script>
 </dom-module>
