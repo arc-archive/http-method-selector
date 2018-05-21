@@ -1,25 +1,27 @@
 language: node_js
-dist: trusty
-node_js: stable
+node_js: 8
+sudo: required
 before_script:
-- npm install --silent bower polymer-cli
-- ./node_modules/.bin/bower install --silent
+- npm install -g polymer-cli
+- polymer install --variants
 addons:
+  firefox: latest
+  apt:
+    sources:
+    - google-chrome
+    packages:
+    - google-chrome-stable
   sauce_connect: true
 script:
-- npm run lint
-- ./node_modules/.bin/polymer test --plugin sauce --job-name "http-method-selector:${TRAVIS_BRANCH}"
-  --build-number=${TRAVIS_BUILD_NUMBER}
+- xvfb-run polymer test polymer test --plugin local
+- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then polymer test --plugin sauce --job-name
+  "http-method-selector:${TRAVIS_BRANCH}" --build-number=${TRAVIS_BUILD_NUMBER}; fi
 cache:
   directories:
-  - bower_components
   - node_modules
-branches:
-  only:
-  - stage
-  - develop
 after_success:
 - node tasks/ci.js
+
 env:
   global:
   - secure: wSrNBLD7Jk40e83lqymA25sYInluzK2j8iSQwulzXVPhldIG/eaMZB8qr0kaREToBEzmoKtCFrtsNK/RteUHExNful6kRuT98Ij/sxhpFB0xaK/Kz6pNnCWpQ7hUAQBzZZhHB9zbzSLDl+ZEqdlQ8FGa2rGNluJcVMC/WAOVZIqF+aPUHnPINN9wMDYOfi66oiD1rqqcADRq2K3WWRBq9+poU/i1yd6KSmKCSMB7CEno4x3DlORSzFo0ZuO9ZNlPcwIrgem+UfEp3h3gmGzYh92860vmPptmSVch7eONHymhTZuP4hqyVMEoRT+vn1pBkVccK7hs6kbbSF81bGngtRpl0n/ak2nGDI4/+UOwuiYUxSFobiCQwgYzGprK70VzLHJ1sPKwOVEurW9bMBRFQ6NTupdxARJf13nKfhaXkAzyxJ/K2FHDxybmHOUzgW1CAivOgfRAzS8om1QrLE5TQbINMeK7D6gpZFt8FwB7in8IIjyEg/UKXaoZyWxmyTrVObYoRq6MaKXabA/4ubfB4cMwgRikdSRWpr50rTrbiK/leH0JiiLY6OOAaGNM6AcHqzpueSNnlxThUPwfGc07WhQDV7xb6HrkEmbL0/hgiQ9vfvkkkWg2p7VgBZ+TYKAPLur+NtMnv8l/584C/osE67ZzRrBmZdcu0nB1rcMpQXs=
