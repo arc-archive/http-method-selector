@@ -1,4 +1,29 @@
 <a name="2.0.0"></a>
+# [2.0.0](https://github.com/advanced-rest-client/http-method-selector/compare/0.1.2...2.0.0) (2018-08-07)
+
+
+### Fix
+
+* Fixing custom input render state handling ([67c291e0ba709af3d79bde83ac4e1b196b3a4eed](https://github.com/advanced-rest-client/http-method-selector/commit/67c291e0ba709af3d79bde83ac4e1b196b3a4eed))
+* Fixing tests after API change ([85f94d311cc8f6533905516b5754bf8d338779f1](https://github.com/advanced-rest-client/http-method-selector/commit/85f94d311cc8f6533905516b5754bf8d338779f1))
+
+### New
+
+* Adding `readonly` property to disable editor ([32b2850a40cd7388a48fd1842ca0b86265d13930](https://github.com/advanced-rest-client/http-method-selector/commit/32b2850a40cd7388a48fd1842ca0b86265d13930))
+
+### Updat
+
+* Updating style for custom input. ([d7d2729f50ff4927864066547aa58e70e0dddb1d](https://github.com/advanced-rest-client/http-method-selector/commit/d7d2729f50ff4927864066547aa58e70e0dddb1d))
+
+### Update
+
+* Updated annotations for linter ([23a17227e0ac4a597530c814bcdbe8184a1bce37](https://github.com/advanced-rest-client/http-method-selector/commit/23a17227e0ac4a597530c814bcdbe8184a1bce37))
+* Updating demo page ([7ef4b0d0c16aaeaed9d768489029490ee04561d3](https://github.com/advanced-rest-client/http-method-selector/commit/7ef4b0d0c16aaeaed9d768489029490ee04561d3))
+* Updating tests configuration ([64074e01fb14df28b4deeb761d5780326df78ecd](https://github.com/advanced-rest-client/http-method-selector/commit/64074e01fb14df28b4deeb761d5780326df78ecd))
+
+
+
+<a name="2.0.0"></a>
 # [2.0.0](https://github.com/advanced-rest-client/http-method-selector/compare/0.1.2...2.0.0) (2018-05-21)
 
 
