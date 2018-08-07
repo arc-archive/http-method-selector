@@ -43,13 +43,13 @@
         element.method = 'X-METHOD';
         assert.isTrue(element.isPayload);
       });
-      test('showCustom is false for standard method', () => {
+      test('renderCustom is false for standard method', () => {
         element.method = 'HEAD';
-        assert.isFalse(element.showCustom);
+        assert.isFalse(element.renderCustom);
       });
-      test('showCustom is true for non-standard method', () => {
+      test('renderCustom is true for non-standard method', () => {
         element.method = 'X-METHOD';
-        assert.isTrue(element.showCustom);
+        assert.isTrue(element.renderCustom);
       });
     });
     </script>

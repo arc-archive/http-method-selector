@@ -30,6 +30,10 @@ the License.
       @apply --http-method-selector;
     }
 
+    :host > * {
+      vertical-align: middle;
+    }
+
     paper-dropdown-menu {
       margin-left: 16px;
       @apply --http-method-selector-dropdown;
@@ -37,6 +41,7 @@ the License.
 
     .custom-name {
       display: inline-block;
+      margin-left: 16px;
       @apply --http-method-selector-input;
     }
 
@@ -58,13 +63,13 @@ the License.
     }
     </style>
     <paper-radio-group selected="{{method}}">
-      <paper-radio-button name="GET">GET</paper-radio-button>
-      <paper-radio-button name="POST">POST</paper-radio-button>
-      <paper-radio-button name="PUT">PUT</paper-radio-button>
-      <paper-radio-button name="DELETE">DELETE</paper-radio-button>
-      <paper-radio-button name="PATCH">PATCH</paper-radio-button>
+      <paper-radio-button disabled="[[readonly]]" name="GET">GET</paper-radio-button>
+      <paper-radio-button disabled="[[readonly]]" name="POST">POST</paper-radio-button>
+      <paper-radio-button disabled="[[readonly]]" name="PUT">PUT</paper-radio-button>
+      <paper-radio-button disabled="[[readonly]]" name="DELETE">DELETE</paper-radio-button>
+      <paper-radio-button disabled="[[readonly]]" name="PATCH">PATCH</paper-radio-button>
     </paper-radio-group>
-    <paper-dropdown-menu label="Other methods" opened="{{methodMenuOpened}}" hidden$="[[showCustom]]">
+    <paper-dropdown-menu label="Other methods" opened="{{methodMenuOpened}}" hidden$="[[renderCustom]]" disabled="[[readonly]]" no-label-float>
       <paper-listbox slot="dropdown-content" selected="{{method}}" attr-for-selected="data-method">
         <paper-item data-method="HEAD">HEAD</paper-item>
         <paper-item data-method="CONNECT">CONNECT</paper-item>
@@ -73,9 +78,11 @@ the License.
         <paper-item data-method="">custom</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-    <paper-input class="custom-name" label="Custom method" required auto-validate inline hidden$="[[!showCustom]]" value="{{method}}">
-      <paper-icon-button title="Clear and close custom editor" slot="suffix" icon="arc:close" on-tap="closeCustom"></paper-icon-button>
-    </paper-input>
+    <template is="dom-if" if="[[renderCustom]]">
+      <paper-input class="custom-name" label="Custom method" required auto-validate inline value="{{method}}" disabled="[[readonly]]" no-label-float>
+        <paper-icon-button title="Clear and close custom editor" slot="suffix" icon="arc:close" on-tap="closeCustom"></paper-icon-button>
+      </paper-input>
+    </template>
   </template>
   <script>
   /**
@@ -111,8 +118,9 @@ the License.
    * @appliesMixin ArcBehaviors.EventsTargetBehavior
    * @appliesMixin ArcBehaviors.HttpMethodSelectorMixin
    */
-  class HttpMethodSelector extends ArcBehaviors.HttpMethodSelectorMixin(ArcBehaviors.EventsTargetBehavior(Polymer.Element)) {
-    static get is() { return 'http-method-selector'; }
+  class HttpMethodSelector extends
+    ArcBehaviors.HttpMethodSelectorMixin(ArcBehaviors.EventsTargetBehavior(Polymer.Element)) {
+    static get is() {return 'http-method-selector';}
   }
   window.customElements.define(HttpMethodSelector.is, HttpMethodSelector);
   </script>

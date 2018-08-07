@@ -62,11 +62,18 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
           type: Boolean,
           value: false
         },
-
-        showCustom: {
+        /**
+         * When set it allows to render a custom method selector
+         */
+        renderCustom: {
           type: Boolean,
-          value: false
-        }
+          value: false,
+          notify: true
+        },
+        /**
+         * When set the editor is in read only mode.
+         */
+        readonly: Boolean
       };
     }
 
@@ -83,7 +90,10 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
     }
 
     get standardMethods() {
-      return ['get','post','put','delete','patch','head','connect','options', 'trace'];
+      return [
+        'get', 'post', 'put', 'delete', 'patch', 'head', 'connect',
+        'options', 'trace'
+      ];
     }
 
     _attachListeners(node) {
@@ -120,6 +130,15 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
       if (method === undefined || this.__cancelMethodEvent) {
         return;
       }
+      if (method && !this.renderCustom) {
+        let m = method && method.toLowerCase();
+        m = m.trim();
+        if (m) {
+          if (this.standardMethods.indexOf(m) === -1) {
+            this.renderCustom = true;
+          }
+        }
+      }
       this.dispatchEvent(new CustomEvent('request-method-changed', {
         cancelable: true,
         bubbles: true,
@@ -154,29 +173,20 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
     }
 
     closeCustom() {
-      this.showCustom = false;
+      this.renderCustom = false;
       this.set('method', 'GET');
     }
 
     /**
-     * Checks if there is an empty method name and if it is it will set `showCustom` property
+     * Checks if there is an empty method name and if it is it will set `renderCustom` property
      * that constrolls display of a custom method input.
      */
     _dropdownMenuOpened(opened, method) {
-      if (!opened && method === '') {
-        this.showCustom = true;
+      if (!opened && method === '' && !this.renderCustom) {
+        this.renderCustom = true;
         Polymer.RenderStatus.afterNextRender(this, () => {
           this.shadowRoot.querySelector('paper-input').focus();
         });
-      } else if (method) {
-        let m = method && method.toLowerCase();
-        if (!m) {
-          return;
-        }
-        m = m.trim();
-        if (this.standardMethods.indexOf(m) === -1) {
-          this.showCustom = true;
-        }
       }
     }
   }
