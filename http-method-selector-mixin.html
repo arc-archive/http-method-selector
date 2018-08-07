@@ -130,8 +130,14 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
       if (method === undefined || this.__cancelMethodEvent) {
         return;
       }
-      if (method === '') {
-        this.renderCustom = true;
+      if (method && !this.renderCustom) {
+        let m = method && method.toLowerCase();
+        m = m.trim();
+        if (m) {
+          if (this.standardMethods.indexOf(m) === -1) {
+            this.renderCustom = true;
+          }
+        }
       }
       this.dispatchEvent(new CustomEvent('request-method-changed', {
         cancelable: true,
@@ -176,20 +182,11 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
      * that constrolls display of a custom method input.
      */
     _dropdownMenuOpened(opened, method) {
-      if (!opened && method === '') {
+      if (!opened && method === '' && !this.renderCustom) {
         this.renderCustom = true;
         Polymer.RenderStatus.afterNextRender(this, () => {
           this.shadowRoot.querySelector('paper-input').focus();
         });
-      } else if (method) {
-        let m = method && method.toLowerCase();
-        if (!m) {
-          return;
-        }
-        m = m.trim();
-        if (this.standardMethods.indexOf(m) === -1) {
-          this.showCustom = true;
-        }
       }
     }
   }
