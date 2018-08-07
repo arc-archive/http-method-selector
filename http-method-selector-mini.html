@@ -56,7 +56,7 @@ the License.
       display: none !important;
     }
     </style>
-    <paper-dropdown-menu label="Method" opened="{{methodMenuOpened}}" hidden$="[[showCustom]]">
+    <paper-dropdown-menu label="Method" opened="{{methodMenuOpened}}" hidden$="[[renderCustom]]" disabled="[[readonly]]">
       <paper-listbox slot="dropdown-content" selected="{{method}}" attr-for-selected="data-method">
         <paper-item data-method="GET">GET</paper-item>
         <paper-item data-method="POST">POST</paper-item>
@@ -70,9 +70,11 @@ the License.
         <paper-item data-method="">Custom</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-    <paper-input class="custom-name" label="Method" required auto-validate inline hidden$="[[!showCustom]]" value="{{method}}">
-      <paper-icon-button slot="suffix" icon="arc:close" on-tap="closeCustom" title="Clear and opend standard dropdown"></paper-icon-button>
-    </paper-input>
+    <template is="dom-if" if="[[renderCustom]]">
+      <paper-input class="custom-name" label="Method" required auto-validate inline value="{{method}}" no-label-float readonly="[[readonly]]">
+        <paper-icon-button slot="suffix" icon="arc:close" on-tap="closeCustom" title="Clear and opend standard dropdown"></paper-icon-button>
+      </paper-input>
+    </template>
   </template>
   <script>
   /**
@@ -106,8 +108,9 @@ the License.
    * @appliesMixin ArcBehaviors.EventsTargetBehavior
    * @appliesMixin ArcBehaviors.HttpMethodSelectorMixin
    */
-  class HttpMethodSelectorMini extends ArcBehaviors.HttpMethodSelectorMixin(ArcBehaviors.EventsTargetBehavior(Polymer.Element)) {
-    static get is() { return 'http-method-selector-mini'; }
+  class HttpMethodSelectorMini extends
+    ArcBehaviors.HttpMethodSelectorMixin(ArcBehaviors.EventsTargetBehavior(Polymer.Element)) {
+    static get is() {return 'http-method-selector-mini';}
   }
   window.customElements.define(HttpMethodSelectorMini.is, HttpMethodSelectorMini);
   </script>
