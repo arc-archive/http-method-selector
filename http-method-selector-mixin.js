@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -10,26 +10,18 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
--->
-<link rel="import" href="../polymer/lib/utils/mixin.html">
-<link rel="import" href="../polymer/lib/utils/render-status.html">
-<script>
-(function(global) {
-'use strict';
-if (!global.ArcBehaviors) {
-  /**
-   * @namespace ArcBehaviors
-   */
-  global.ArcBehaviors = {};
-}
+*/
+import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
+
 /**
  * A behavior to share common code between both method selectors.
  *
  * @polymer
  * @mixinFunction
- * @memberof ArcBehaviors
+ * @memberof ArcMixins
  */
-ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
+export const HttpMethodSelectorMixin = dedupingMixin((base) => {
   /**
    * @polymer
    * @mixinClass
@@ -151,6 +143,8 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
     /**
      * Responds to an event requesting status check for `isPayload` propery by setting the `value`
      * property on the event and canceling the event.
+     *
+     * @param {CustomEvent} e
      */
     _isPayloadStatusHandler(e) {
       if (e.defaultPrevented) {
@@ -162,6 +156,8 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
     }
     /**
      * If the event source is not this element it will update the method value.
+     *
+     * @param {CustomEvent} e
      */
     _methodChangedHandler(e) {
       if (e.target === this) {
@@ -180,11 +176,14 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
     /**
      * Checks if there is an empty method name and if it is it will set `renderCustom` property
      * that constrolls display of a custom method input.
+     *
+     * @param {Boolean} opened
+     * @param {String} method
      */
     _dropdownMenuOpened(opened, method) {
       if (!opened && method === '' && !this.renderCustom) {
         this.renderCustom = true;
-        Polymer.RenderStatus.afterNextRender(this, () => {
+        afterNextRender(this, () => {
           this.shadowRoot.querySelector('paper-input').focus();
         });
       }
@@ -205,5 +204,3 @@ ArcBehaviors.HttpMethodSelectorMixin = Polymer.dedupingMixin((base) => {
    */
   return HMSMmixin;
 });
-})(window);
-</script>

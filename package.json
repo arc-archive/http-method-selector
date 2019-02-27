@@ -1,29 +1,62 @@
 {
-  "name": "@api-components/http-method-selector",
-  "version": "2.0.1",
-  "license": "Apache-2.0",
   "description": "A HTTP method selector",
+  "keywords": [
+    "web-components",
+    "http-method",
+    "http-verb",
+    "method"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/advanced-rest-client/http-method-selector.git"
+  },
+  "name": "@advanced-rest-client/http-method-selector",
+  "version": "3.0.0-preview.1",
+  "license": "Apache-2.0",
   "authors": [
     "pawel Psztyc",
     "The Advanced REST client authors <arc@mulesoft.com>"
   ],
   "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.6.1"
+    "@advanced-rest-client/arc-electron-default-theme": "^3.0.0-preview.1",
+    "@polymer/gen-typescript-declarations": "^1.6.1",
+    "@polymer/iron-component-page": "^4.0.0",
+    "@polymer/iron-demo-helpers": "^3.0.0",
+    "@polymer/iron-test-helpers": "^3.0.0",
+    "@polymer/paper-toggle-button": "^3.0.0",
+    "@polymer/test-fixture": "^4.0.2",
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.3",
+    "wct-mocha": "^1.0.0",
+    "web-animations-js": "^2.3.1"
   },
-  "private": false,
-  "main": "http-method-selector.html",
+  "main": "http-method-selector.js",
   "scripts": {
     "lint": "polymer lint http-method-selector.html http-method-selector-mini.html",
     "test-sauce": "polymer test --plugin sauce --job-name \"http-method-selector:local-test\"",
     "test": "polymer test --plugin local",
     "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/advanced-rest-client/http-method-selector.git"
-  },
   "bugs": {
     "url": "https://github.com/advanced-rest-client/http-method-selector/issues",
     "email": "arc@mulesoft.com"
+  },
+  "contributors": [
+    "pawel Psztyc",
+    "The Advanced REST client authors <arc@mulesoft.com>"
+  ],
+  "dependencies": {
+    "@advanced-rest-client/arc-icons": "^3.0.0-preview.1",
+    "@advanced-rest-client/events-target-mixin": "^3.0.0-preview.1",
+    "@polymer/paper-dropdown-menu": "^3.0.0",
+    "@polymer/paper-icon-button": "^3.0.0",
+    "@polymer/paper-input": "^3.0.0",
+    "@polymer/paper-item": "^3.0.0",
+    "@polymer/paper-listbox": "^3.0.0",
+    "@polymer/paper-radio-button": "^3.0.0",
+    "@polymer/paper-radio-group": "^3.0.0",
+    "@polymer/polymer": "^3.0.0"
   }
 }
