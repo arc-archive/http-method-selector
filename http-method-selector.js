@@ -11,118 +11,145 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {EventsTargetMixin} from '../../@advanced-rest-client/events-target-mixin/events-target-mixin.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import '../../@polymer/paper-radio-group/paper-radio-group.js';
-import '../../@polymer/paper-radio-button/paper-radio-button.js';
-import '../../@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '../../@polymer/paper-listbox/paper-listbox.js';
-import '../../@polymer/paper-item/paper-item.js';
-import '../../@polymer/paper-input/paper-input.js';
-import '../../@polymer/paper-icon-button/paper-icon-button.js';
-import '../../@advanced-rest-client/arc-icons/arc-icons.js';
-import {HttpMethodSelectorMixin} from './http-method-selector-mixin.js';
-
+import { html, css, LitElement } from 'lit-element';
+import { EventsTargetMixin } from '@advanced-rest-client/events-target-mixin/events-target-mixin.js';
+import { HttpMethodSelectorMixin } from './http-method-selector-mixin.js';
+import '@anypoint-web-components/anypoint-radio-button/anypoint-radio-group.js';
+import '@anypoint-web-components/anypoint-radio-button/anypoint-radio-button.js';
+import '@anypoint-web-components/anypoint-dropdown-menu/anypoint-dropdown-menu.js';
+import '@anypoint-web-components/anypoint-listbox/anypoint-listbox.js';
+import '@anypoint-web-components/anypoint-item/anypoint-item.js';
+import '@anypoint-web-components/anypoint-input/anypoint-input.js';
+import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
+import '@advanced-rest-client/arc-icons/arc-icons.js';
+import '@polymer/iron-icon/iron-icon.js';
 /**
- * A HTTP method selector. Displays list of radio buttons with common
+ * A HTTP method selector.
+ *
+ * Displays list of radio buttons with common
  * http methods and a dropdown with less common but still valid methods.
  *
  * User can define his own methos whe selects "custom" option in the dropdown menu.
  * Because of this the element do not support validation of any kind and hosting
  * application should provide one if required.
  *
- * ### Example
- *
- * ```html
- * <http-method-selector></http-method-selector>
- * ```
- *
- * ### Styling
- * `<http-method-selector>` provides the following custom properties and mixins for styling:
- *
- * Custom property | Description | Default
- * ----------------|-------------|----------
- * `--http-method-selector` | Mixin applied to the element | `{}`
- * `--http-method-selector-dropdown` | Mixin applied to the dropdown field | `{}`
- * `--http-method-selector-input` | Mixin applied to the custom input field | `{}`
- * `--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
- * `--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
- * `--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
- *
  * @customElement
- * @polymer
  * @demo demo/index.html
  * @memberof UiElements
  * @appliesMixin EventsTargetMixin
  * @appliesMixin HttpMethodSelectorMixin
  */
-class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(PolymerElement)) {
-  static get template() {
-    return html`
-    <style>
+class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitElement)) {
+  static get styles() {
+    return css`
     :host {
-      display: block;
-      @apply --http-method-selector;
+      display: inline-flex;
+      align-items: center;
+      flex-direction: row;
     }
 
     :host > * {
       vertical-align: middle;
     }
 
-    paper-dropdown-menu {
-      margin-left: 16px;
-      @apply --http-method-selector-dropdown;
+    anypoint-dropdown-menu,
+    anypoint-input {
+      margin: 12px 8px;
+    }
+
+    anypoint-dropdown-menu {
+      width: var(--http-method-selector-mini-dropdown-width, 100px);
     }
 
     .custom-name {
-      display: inline-block;
-      margin-left: 16px;
-      @apply --http-method-selector-input;
+      width: var(--http-method-selector-mini-input-width, 100px);
     }
 
     #closeCustom {
       padding: 0;
       width: 24px;
       height: 24px;
-      color: var(--from-row-action-icon-color, var(--icon-button-color, rgba(0, 0, 0, 0.74)));
-      transition: color 0.2s linear;
-      @apply --http-method-selector-custom-close-button;
-    }
-
-    #closeCustom:hover {
-      color: var(--from-row-action-icon-color-hover, var(--accent-color, rgba(0, 0, 0, 0.74)));
     }
 
     [hidden] {
       display: none !important;
     }
-    </style>
-    <paper-radio-group selected="{{method}}">
-      <paper-radio-button disabled="[[readonly]]" name="GET">GET</paper-radio-button>
-      <paper-radio-button disabled="[[readonly]]" name="POST">POST</paper-radio-button>
-      <paper-radio-button disabled="[[readonly]]" name="PUT">PUT</paper-radio-button>
-      <paper-radio-button disabled="[[readonly]]" name="DELETE">DELETE</paper-radio-button>
-      <paper-radio-button disabled="[[readonly]]" name="PATCH">PATCH</paper-radio-button>
-    </paper-radio-group>
-    <paper-dropdown-menu label="Other methods" opened="{{methodMenuOpened}}"
-      hidden\$="[[renderCustom]]" disabled="[[readonly]]" no-label-float="">
-      <paper-listbox slot="dropdown-content" selected="{{method}}" attr-for-selected="data-method">
-        <paper-item data-method="HEAD">HEAD</paper-item>
-        <paper-item data-method="CONNECT">CONNECT</paper-item>
-        <paper-item data-method="OPTIONS">OPTIONS</paper-item>
-        <paper-item data-method="TRACE">TRACE</paper-item>
-        <paper-item data-method="">custom</paper-item>
-      </paper-listbox>
-    </paper-dropdown-menu>
-    <template is="dom-if" if="[[renderCustom]]">
-      <paper-input class="custom-name" label="Custom method" required=""
-        auto-validate="" inline="" value="{{method}}" disabled="[[readonly]]" no-label-float="">
-        <paper-icon-button title="Clear and close custom editor" slot="suffix"
-          icon="arc:close" on-click="closeCustom"></paper-icon-button>
-      </paper-input>
-    </template>
-`;
+
+    anypoint-listbox {
+      box-shadow: var(--anypoiont-dropdown-shaddow);
+    }
+    `;
+  }
+
+  _radioSelection(e) {
+    this.method = e.detail.value;
+  }
+
+  render() {
+    const {
+      method,
+      legacy,
+      outlined,
+      readOnly,
+      methodMenuOpened,
+      renderCustom
+    } = this;
+    return html`
+    <anypoint-radio-group
+      .selected="${method}"
+      @selected-changed="${this._radioSelection}"
+      ?disabled="${readOnly}"
+      attrforselected="name"
+      aria-label="Select one of predefined HTTP methods">
+      <anypoint-radio-button ?disabled="${readOnly}" name="GET">GET</anypoint-radio-button>
+      <anypoint-radio-button ?disabled="${readOnly}" name="POST">POST</anypoint-radio-button>
+      <anypoint-radio-button ?disabled="${readOnly}" name="PUT">PUT</anypoint-radio-button>
+      <anypoint-radio-button ?disabled="${readOnly}" name="DELETE">DELETE</anypoint-radio-button>
+      <anypoint-radio-button ?disabled="${readOnly}" name="PATCH">PATCH</anypoint-radio-button>
+    </anypoint-radio-group>
+
+    <anypoint-dropdown-menu
+      ?opened="${methodMenuOpened}"
+      ?hidden="${renderCustom}"
+      ?legacy="${legacy}"
+      ?outlined="${outlined}"
+      ?disabled="${readOnly}"
+      nolabelfloat
+      aria-label="Select one of predefined other HTTP methods. Select custom to set custom method"
+      @opened-changed="${this._openedHandler}">
+      <label slot="label">Other</label>
+      <anypoint-listbox
+        slot="dropdown-content"
+        .selected="${method}"
+        attrforselected="data-method"
+        @selected-changed="${this._methodHandler}">
+        <anypoint-item ?legacy="${legacy}" data-method="HEAD">HEAD</anypoint-item>
+        <anypoint-item ?legacy="${legacy}" data-method="CONNECT">CONNECT</anypoint-item>
+        <anypoint-item ?legacy="${legacy}" data-method="OPTIONS">OPTIONS</anypoint-item>
+        <anypoint-item ?legacy="${legacy}" data-method="TRACE">TRACE</anypoint-item>
+        <anypoint-item ?legacy="${legacy}" data-method="">custom</anypoint-item>
+      </anypoint-listbox>
+    </anypoint-dropdown-menu>
+    ${renderCustom ? html`<anypoint-input
+      class="custom-name"
+      required
+      autovalidate
+      .value="${method}"
+      @value-changed="${this._methodHandler}"
+      ?disabled="${readOnly}"
+      nolabelfloat
+      ?readonly="${readOnly}"
+      ?legacy="${legacy}"
+      ?outlined="${outlined}">
+      <label slot="label">Custom method</label>
+      <anypoint-icon-button
+        aria-label="Activate to clear and close custom editor"
+        title="Clear and close custom editor"
+        slot="suffix"
+        @click="${this.closeCustom}">
+        <iron-icon icon="arc:close"></iron-icon>
+      </anypoint-icon-button>
+    </anypoint-input>` : undefined}`;
   }
 }
 window.customElements.define('http-method-selector', HttpMethodSelector);

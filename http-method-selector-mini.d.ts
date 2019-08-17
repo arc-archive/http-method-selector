@@ -10,10 +10,9 @@
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html, css, LitElement} from 'lit-element';
 
 import {EventsTargetMixin} from '@advanced-rest-client/events-target-mixin/events-target-mixin.js';
 
@@ -29,26 +28,12 @@ declare namespace UiElements {
    * ```html
    * <http-method-selector-mini></http-method-selector-mini>
    * ```
-   *
-   * ### Styling
-   *
-   * `<http-method-selector>` provides the following custom properties and mixins for styling:
-   *
-   * Custom property | Description | Default
-   * ----------------|-------------|----------
-   * `--http-method-selector-mini` | Mixin applied to the element | `{}`
-   * `--http-method-selector-mini-dropdown-width` | Width of the dropdown field | `100px`
-   * `--http-method-selector-mini-input-width` | Width of the custom input field | `100px`
-   * `--http-method-selector-mini-dropdown` | Mixin applied to the dropdown field | `{}`
-   * `--http-method-selector-mini-input` | Mixin applied to the custom input field | `{}`
-   * `--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
-   * `--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
-   * `--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
    */
   class HttpMethodSelectorMini extends
     ArcBehaviors.EventsTargetBehavior(
     ArcBehaviors.HttpMethodSelectorMixin(
     Object)) {
+    render(): any;
   }
 }
 

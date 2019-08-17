@@ -11,185 +11,339 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {dedupingMixin} from '../../@polymer/polymer/lib/utils/mixin.js';
-import {afterNextRender} from '../../@polymer/polymer/lib/utils/render-status.js';
 
 /**
- * A behavior to share common code between both method selectors.
+ * A mixin to share common code between both method selectors.
  *
- * @polymer
  * @mixinFunction
  * @memberof ArcMixins
+ * @param {Class} base
+ * @return {Class}
  */
-export const HttpMethodSelectorMixin = dedupingMixin((base) => {
+export const HttpMethodSelectorMixin = (base) => class extends base {
+  static get properties() {
+    return {
+      /**
+       * Currently selected HTTP method.
+       */
+      method: { type: String },
+      /**
+       * True if the request for selected HTTP method can carry a payload. It
+       * is defined in HTTP spec.
+       */
+      _isPayload: { type: Boolean },
+      /**
+       * Set to true when the user opens the dropdown menu
+       */
+      methodMenuOpened: { type: Boolean },
+      /**
+       * When set it allows to render a custom method selector
+       */
+      renderCustom: { type: Boolean },
+      /**
+       * When set the editor is in read only mode.
+       */
+      readOnly: { type: Boolean },
+      /**
+       * Enables outlined theme.
+       */
+      outlined: { type: Boolean, reflect: true },
+      /**
+       * Enables Anypoint legacy theme.
+       */
+      legacy: { type: Boolean, reflect: true }
+    };
+  }
+
+  get method() {
+    return this._method;
+  }
+
+  set method(value) {
+    const old = this._method;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
+    }
+    this._method = value;
+    /* istanbul ignore else */
+    if (this.requestUpdate) {
+      this.requestUpdate('method', old);
+    }
+    this._methodChanged(value);
+    this._isPayload = this._computeIsPayload(value);
+    this._dropdownMenuOpened(this.methodMenuOpened, value);
+    this.dispatchEvent(new CustomEvent('method-changed', {
+      detail: {
+        value
+      }
+    }));
+  }
+
+  get isPayload() {
+    return this._isPayload;
+  }
+
+  get _isPayload() {
+    return this.__isPayload;
+  }
+
+  set _isPayload(value) {
+    const old = this.__isPayload;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
+    }
+    this.__isPayload = value;
+    /* istanbul ignore else */
+    if (this.requestUpdate) {
+      this.requestUpdate('_isPayload', old);
+    }
+    this._onIsPayloadChanged(value);
+    this.dispatchEvent(new CustomEvent('ispayload-changed', {
+      detail: {
+        value
+      }
+    }));
+  }
+
+  get renderCustom() {
+    return this._renderCustom;
+  }
+
+  set renderCustom(value) {
+    const old = this._renderCustom;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
+    }
+    this._renderCustom = value;
+    /* istanbul ignore else */
+    if (this.requestUpdate) {
+      this.requestUpdate('renderCustom', old);
+    }
+    this.dispatchEvent(new CustomEvent('rendercustom-changed', {
+      detail: {
+        value
+      }
+    }));
+  }
+
+  get methodMenuOpened() {
+    return this._methodMenuOpened;
+  }
+
+  set methodMenuOpened(value) {
+    const old = this._methodMenuOpened;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
+    }
+    this._methodMenuOpened = value;
+    /* istanbul ignore else */
+    if (this.requestUpdate) {
+      this.requestUpdate('methodMenuOpened', old);
+    }
+    this._dropdownMenuOpened(value, this.method);
+  }
+
   /**
-   * @polymer
-   * @mixinClass
+   * @return {Function} Previously registered handler for `method-changed` event
    */
-  class HMSMmixin extends base {
-    static get properties() {
-      return {
-        // Currently selected HTTP method
-        method: {
-          type: String,
-          value: 'GET',
-          notify: true,
-          observer: '_methodChanged'
-        },
+  get onmethod() {
+    return this['_onmethod-changed'];
+  }
+  /**
+   * Registers a callback function for `method-changed` event
+   * @param {Function} value A callback to register. Pass `null` or `undefined`
+   * to clear the listener.
+   */
+  set onmethod(value) {
+    this._registerCallback('method-changed', value);
+  }
 
-        /**
-         * True if the request for selected HTTP method can carry a payload. It
-         * is defined in HTTP spec.
-         */
-        isPayload: {
-          type: Boolean,
-          value: false,
-          readOnly: true,
-          notify: true,
-          computed: '_computeIsPayload(method)',
-          observer: '_onIsPayloadChanged'
-        },
-        // Set to true when the user opens the dropdown menu
-        methodMenuOpened: {
-          type: Boolean,
-          value: false
-        },
-        /**
-         * When set it allows to render a custom method selector
-         */
-        renderCustom: {
-          type: Boolean,
-          value: false,
-          notify: true
-        },
-        /**
-         * When set the editor is in read only mode.
-         */
-        readonly: Boolean
-      };
+  /**
+   * @return {Function} Previously registered handler for `ispayload-changed` event
+   */
+  get onispayload() {
+    return this['_onispayload-changed'];
+  }
+  /**
+   * Registers a callback function for `ispayload-changed` event
+   * @param {Function} value A callback to register. Pass `null` or `undefined`
+   * to clear the listener.
+   */
+  set onispayload(value) {
+    this._registerCallback('ispayload-changed', value);
+  }
+
+  constructor() {
+    super();
+    this._isPayloadStatusHandler = this._isPayloadStatusHandler.bind(this);
+    this._methodChangedHandler = this._methodChangedHandler.bind(this);
+
+    this.method = 'GET';
+    this._isPayload = false;
+    this.methodMenuOpened = false;
+    this.renderCustom = false;
+  }
+
+  get standardMethods() {
+    return [
+      'get', 'post', 'put', 'delete', 'patch', 'head', 'connect',
+      'options', 'trace'
+    ];
+  }
+
+  get inputElement() {
+    return this.shadowRoot && this.shadowRoot.querySelector('anypoint-input');
+  }
+
+  /**
+   * Registers an event handler for given type
+   * @param {String} eventType Event type (name)
+   * @param {Function} value The handler to register
+   */
+  _registerCallback(eventType, value) {
+    const key = `_on${eventType}`;
+    if (this[key]) {
+      this.removeEventListener(eventType, this[key]);
     }
-
-    constructor() {
-      super();
-      this._isPayloadStatusHandler = this._isPayloadStatusHandler.bind(this);
-      this._methodChangedHandler = this._methodChangedHandler.bind(this);
+    if (typeof value !== 'function') {
+      this[key] = null;
+      return;
     }
+    this[key] = value;
+    this.addEventListener(eventType, value);
+  }
 
-    static get observers() {
-      return [
-        '_dropdownMenuOpened(methodMenuOpened, method)'
-      ];
+  _attachListeners(node) {
+    node.addEventListener('request-is-payload-status', this._isPayloadStatusHandler);
+    node.addEventListener('request-method-changed', this._methodChangedHandler);
+  }
+
+  _detachListeners(node) {
+    node.removeEventListener('request-is-payload-status', this._isPayloadStatusHandler);
+    node.removeEventListener('request-method-changed', this._methodChangedHandler);
+  }
+
+  // Compute if the tayload can carry a payload.
+  _computeIsPayload(method) {
+    return ['GET', 'HEAD'].indexOf(method) === -1;
+  }
+
+  /**
+   * Handler for `isPayload` property change.
+   * @param {Boolean} value
+   */
+  _onIsPayloadChanged(value) {
+    if (value === undefined) {
+      return;
     }
-
-    get standardMethods() {
-      return [
-        'get', 'post', 'put', 'delete', 'patch', 'head', 'connect',
-        'options', 'trace'
-      ];
-    }
-
-    _attachListeners(node) {
-      node.addEventListener('request-is-payload-status', this._isPayloadStatusHandler);
-      node.addEventListener('request-method-changed', this._methodChangedHandler);
-    }
-
-    _detachListeners(node) {
-      node.removeEventListener('request-is-payload-status', this._isPayloadStatusHandler);
-      node.removeEventListener('request-method-changed', this._methodChangedHandler);
-    }
-
-    // Compute if the tayload can carry a payload.
-    _computeIsPayload(method) {
-      return ['GET', 'HEAD'].indexOf(method) === -1;
-    }
-
-    // Handler for `isPayload` property change
-    _onIsPayloadChanged(value) {
-      if (value === undefined) {
-        return;
+    this.dispatchEvent(new CustomEvent('request-is-payload-changed', {
+      cancelable: true,
+      bubbles: true,
+      composed: true,
+      detail: {
+        value: value
       }
-      this.dispatchEvent(new CustomEvent('request-is-payload-changed', {
-        cancelable: true,
-        bubbles: true,
-        composed: true,
-        detail: {
-          value: value
+    }));
+  }
+  /**
+   * Handler for `method` property chnage.
+   * @param {?String} method
+   */
+  _methodChanged(method) {
+    if (method === undefined || this.__cancelMethodEvent) {
+      return;
+    }
+    if (method && !this.renderCustom) {
+      let m = method && method.toLowerCase();
+      m = m.trim();
+      if (m) {
+        if (this.standardMethods.indexOf(m) === -1) {
+          this.renderCustom = true;
         }
-      }));
-    }
-    // Handler for `method` property chnage
-    _methodChanged(method) {
-      if (method === undefined || this.__cancelMethodEvent) {
-        return;
       }
-      if (method && !this.renderCustom) {
-        let m = method && method.toLowerCase();
-        m = m.trim();
-        if (m) {
-          if (this.standardMethods.indexOf(m) === -1) {
-            this.renderCustom = true;
-          }
-        }
-      }
-      this.dispatchEvent(new CustomEvent('request-method-changed', {
-        cancelable: true,
-        bubbles: true,
-        composed: true,
-        detail: {
-          value: method
-        }
-      }));
     }
-    /**
-     * Responds to an event requesting status check for `isPayload` propery by setting the `value`
-     * property on the event and canceling the event.
-     *
-     * @param {CustomEvent} e
-     */
-    _isPayloadStatusHandler(e) {
-      if (e.defaultPrevented) {
-        return;
+    this.dispatchEvent(new CustomEvent('request-method-changed', {
+      cancelable: true,
+      bubbles: true,
+      composed: true,
+      detail: {
+        value: method
       }
-      e.preventDefault();
-      e.stopPropagation();
-      e.detail.value = this.isPayload;
+    }));
+  }
+  /**
+   * Responds to an event requesting status check for `isPayload` propery by setting the `value`
+   * property on the event and canceling the event.
+   *
+   * @param {CustomEvent} e
+   */
+  _isPayloadStatusHandler(e) {
+    if (e.defaultPrevented) {
+      return;
     }
-    /**
-     * If the event source is not this element it will update the method value.
-     *
-     * @param {CustomEvent} e
-     */
-    _methodChangedHandler(e) {
-      if (e.target === this) {
-        return;
-      }
-      this.__cancelMethodEvent = true;
-      this.set('method', e.detail.value);
-      this.__cancelMethodEvent = undefined;
+    e.preventDefault();
+    e.stopPropagation();
+    e.detail.value = this._isPayload;
+  }
+  /**
+   * If the event source is not this element it will update the method value.
+   *
+   * @param {CustomEvent} e
+   */
+  _methodChangedHandler(e) {
+    if (e.target === this) {
+      return;
     }
+    this.__cancelMethodEvent = true;
+    this.method = e.detail.value;
+    this.__cancelMethodEvent = undefined;
 
-    closeCustom() {
-      this.renderCustom = false;
-      this.set('method', 'GET');
-    }
+    setTimeout(() => this.validateCustom());
+  }
 
-    /**
-     * Checks if there is an empty method name and if it is it will set `renderCustom` property
-     * that constrolls display of a custom method input.
-     *
-     * @param {Boolean} opened
-     * @param {String} method
-     */
-    _dropdownMenuOpened(opened, method) {
-      if (!opened && method === '' && !this.renderCustom) {
-        this.renderCustom = true;
-        afterNextRender(this, () => {
-          this.shadowRoot.querySelector('paper-input').focus();
-        });
-      }
+  validateCustom() {
+    const node = this.inputElement;
+    if (node) {
+      return node.validate();
+    }
+    return true;
+  }
+
+  closeCustom() {
+    this.renderCustom = false;
+    this.method = 'GET';
+  }
+
+  /**
+   * Checks if there is an empty method name and if it is it will set `renderCustom` property
+   * that constrolls display of a custom method input.
+   *
+   * @param {Boolean} opened
+   * @param {String} method
+   */
+  _dropdownMenuOpened(opened, method) {
+    if (!opened && method === '' && !this.renderCustom) {
+      this.renderCustom = true;
+      setTimeout(() => {
+        const node = this.inputElement;
+        if (node) {
+          node.focus();
+        }
+      });
     }
   }
 
+  _openedHandler(e) {
+    this.methodMenuOpened = e.detail.value;
+  }
+
+  _methodHandler(e) {
+    this.method = e.detail.value;
+  }
   /**
    * Fired when the `isPayload` computed property value chnage.
    *
@@ -202,5 +356,4 @@ export const HttpMethodSelectorMixin = dedupingMixin((base) => {
    * @event request-method-changed
    * @param {Boolean} value Current HTTP method name.
    */
-  return HMSMmixin;
-});
+};

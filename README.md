@@ -2,21 +2,16 @@
 
 [![Build Status](https://travis-ci.org/advanced-rest-client/http-method-selector.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/http-method-selector)
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/http-method-selector)
-
 ## &lt;http-method-selector&gt;
 
-A HTTP method selector. Displays list of radio buttons with common
-http methods and a dropdown with less common but still valid methods.
+A HTTP method selector. Displays list of radio buttons with common http methods and a dropdown with less common but still valid methods.
+
+It also allows to define own method.
 
 ```html
 <http-method-selector method="POST" is-payload></http-method-selector>
 <http-method-selector-mini method="PUT" is-payload></http-method-selector-mini>
 ```
-
-### API components
-
-This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)
 
 ## Usage
 
@@ -36,23 +31,50 @@ npm install --save @advanced-rest-client/http-method-selector
     </script>
   </head>
   <body>
-    <http-method-selector method="POST" is-payload></http-method-selector>
-    <http-method-selector-mini method="PUT" is-payload></http-method-selector-mini>
+    <http-method-selector method="POST"></http-method-selector>
+    <http-method-selector-mini method="PUT"></http-method-selector-mini>
+
+    <script>
+    {
+      document.querySelector('http-method-selector').onmethod = (e) => {
+        console.log(e.detail.value); // or e.target.method
+      };
+      document.querySelector('http-method-selector').onispayload = (e) => {
+        if (e.detail.value) {
+          console.log('Payload is allowed');
+        } else {
+          console.log('Payload is not allowed');
+        }
+      };
+    }
+    </script>
   </body>
 </html>
 ```
 
-### In a Polymer 3 element
+### In a LitElement
 
 ```js
-import {PolymerElement, html} from '@polymer/polymer';
+import { LitElement, html } from 'lit-element';
 import '@advanced-rest-client/http-method-selector/http-method-selector.js';
 import '@advanced-rest-client/http-method-selector/http-method-selector-mini.js';
 
 class SampleElement extends PolymerElement {
-  static get template() {
-    return html`<http-method-selector method="POST" is-payload></http-method-selector>
-    <http-method-selector-mini method="PUT" is-payload></http-method-selector-mini>`;
+  render() {
+    return html`
+    <http-method-selector
+      method="POST"
+      @method-changed="${this._verbHandler}"
+      @ispayload-changed="${this._isPayloadHandler}"></http-method-selector>
+    `;
+  }
+
+  _verbHandler(e) {
+    this.httpMethod = e.target.method;
+  }
+
+  _isPayloadHandler(e) {
+    this.payloadAllowed = e.detail.value;
   }
 }
 customElements.define('sample-element', SampleElement);
@@ -62,19 +84,22 @@ customElements.define('sample-element', SampleElement);
 
 ```sh
 git clone https://github.com/advanced-rest-client/http-method-selector
-cd api-url-editor
+cd http-method-selector
 npm install
-npm install -g polymer-cli
 ```
+
 
 ### Running the demo locally
 
 ```sh
-polymer serve --npm
-open http://127.0.0.1:<port>/demo/
+npm start
 ```
 
 ### Running the tests
 ```sh
-polymer test --npm
+npm test
 ```
+
+## API components
+
+This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)

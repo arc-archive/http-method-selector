@@ -10,47 +10,32 @@
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {html, css, LitElement} from 'lit-element';
 
 import {EventsTargetMixin} from '@advanced-rest-client/events-target-mixin/events-target-mixin.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 import {HttpMethodSelectorMixin} from './http-method-selector-mixin.js';
 
 declare namespace UiElements {
 
   /**
-   * A HTTP method selector. Displays list of radio buttons with common
+   * A HTTP method selector.
+   *
+   * Displays list of radio buttons with common
    * http methods and a dropdown with less common but still valid methods.
    *
    * User can define his own methos whe selects "custom" option in the dropdown menu.
    * Because of this the element do not support validation of any kind and hosting
    * application should provide one if required.
-   *
-   * ### Example
-   *
-   * ```html
-   * <http-method-selector></http-method-selector>
-   * ```
-   *
-   * ### Styling
-   * `<http-method-selector>` provides the following custom properties and mixins for styling:
-   *
-   * Custom property | Description | Default
-   * ----------------|-------------|----------
-   * `--http-method-selector` | Mixin applied to the element | `{}`
-   * `--http-method-selector-dropdown` | Mixin applied to the dropdown field | `{}`
-   * `--http-method-selector-input` | Mixin applied to the custom input field | `{}`
-   * `--http-method-selector-custom-close-button` | Mixin applied to the custom input close button | `{}`
-   * `--from-row-action-icon-color` | Theme variable, color of the custom input close button | `--icon-button-color` or `rgba(0, 0, 0, 0.74)`
-   * `--from-row-action-icon-color-hover` | Theme variable, color of the custom input close button when hovering | `--accent-color` or `rgba(0, 0, 0, 0.74)`
    */
   class HttpMethodSelector extends
     EventsTargetMixin(
     HttpMethodSelectorMixin(
     Object)) {
+    _radioSelection(e: any): void;
+    render(): any;
   }
 }
 
