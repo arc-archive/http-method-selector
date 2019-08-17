@@ -115,3 +115,7 @@
 
 
 
+# [3.0.0](https://github.com/advanced-rest-client/http-method-selector/compare/0.1.2...3.0.0) (2019-08-17)
+
+
+
