@@ -66,7 +66,7 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
   render() {
     const {
       method,
-      legacy,
+      compatibility,
       outlined,
       readOnly,
       methodMenuOpened,
@@ -82,7 +82,7 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
       ?disabled="${readOnly}"
       nolabelfloat
       ?readonly="${readOnly}"
-      ?legacy="${legacy}"
+      ?compatibility="${compatibility}"
       ?outlined="${outlined}">
       <label slot="label">Method</label>
       <anypoint-icon-button
@@ -96,7 +96,7 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
     html`<anypoint-dropdown-menu
       ?opened="${methodMenuOpened}"
       ?hidden="${renderCustom}"
-      ?legacy="${legacy}"
+      ?compatibility="${compatibility}"
       ?outlined="${outlined}"
       ?disabled="${readOnly}"
       nolabelfloat
@@ -107,16 +107,16 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
         .selected="${method}"
         attrforselected="data-method"
         @selected-changed="${this._methodHandler}">
-        <anypoint-item ?legacy="${legacy}" data-method="GET">GET</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="POST">POST</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="PUT">PUT</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="DELETE">DELETE</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="PATCH">PATCH</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="HEAD">HEAD</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="CONNECT">CONNECT</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="OPTIONS">OPTIONS</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="TRACE">TRACE</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="">custom</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="GET">GET</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="POST">POST</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="PUT">PUT</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="DELETE">DELETE</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="PATCH">PATCH</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="HEAD">HEAD</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="CONNECT">CONNECT</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="OPTIONS">OPTIONS</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="TRACE">TRACE</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="">custom</anypoint-item>
       </anypoint-listbox>
     </anypoint-dropdown-menu>`}`;
   }

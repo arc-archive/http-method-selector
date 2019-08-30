@@ -88,7 +88,7 @@ class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitEl
   render() {
     const {
       method,
-      legacy,
+      compatibility,
       outlined,
       readOnly,
       methodMenuOpened,
@@ -111,7 +111,7 @@ class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitEl
     <anypoint-dropdown-menu
       ?opened="${methodMenuOpened}"
       ?hidden="${renderCustom}"
-      ?legacy="${legacy}"
+      ?compatibility="${compatibility}"
       ?outlined="${outlined}"
       ?disabled="${readOnly}"
       nolabelfloat
@@ -123,11 +123,11 @@ class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitEl
         .selected="${method}"
         attrforselected="data-method"
         @selected-changed="${this._methodHandler}">
-        <anypoint-item ?legacy="${legacy}" data-method="HEAD">HEAD</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="CONNECT">CONNECT</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="OPTIONS">OPTIONS</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="TRACE">TRACE</anypoint-item>
-        <anypoint-item ?legacy="${legacy}" data-method="">custom</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="HEAD">HEAD</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="CONNECT">CONNECT</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="OPTIONS">OPTIONS</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="TRACE">TRACE</anypoint-item>
+        <anypoint-item ?compatibility="${compatibility}" data-method="">custom</anypoint-item>
       </anypoint-listbox>
     </anypoint-dropdown-menu>
     ${renderCustom ? html`<anypoint-input
@@ -139,7 +139,7 @@ class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitEl
       ?disabled="${readOnly}"
       nolabelfloat
       ?readonly="${readOnly}"
-      ?legacy="${legacy}"
+      ?compatibility="${compatibility}"
       ?outlined="${outlined}">
       <label slot="label">Custom method</label>
       <anypoint-icon-button

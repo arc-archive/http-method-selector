@@ -11,12 +11,12 @@ class ApiDemo extends ArcDemoPage {
     super();
 
     this.initObservableProperties([
-      'demoOutlined', 'demoLegacy', 'readOnly', 'miniReadOnly',
-      'miniOutlined', 'miniLegacy'
+      'demoOutlined', 'demoCompatibility', 'readOnly', 'miniReadOnly',
+      'miniOutlined', 'miniCompatibility'
     ]);
 
     this.componentName = 'http-method-selector';
-    this.demoStates = ['Filled', 'Outlined', 'Legacy'];
+    this.demoStates = ['Filled', 'Outlined', 'Anypoint'];
     this._mainDemoStateHandler = this._mainDemoStateHandler.bind(this);
     this._toggleMainOption = this._toggleMainOption.bind(this);
     this._miniStateHandler = this._miniStateHandler.bind(this);
@@ -27,15 +27,15 @@ class ApiDemo extends ArcDemoPage {
     switch (state) {
       case 0:
         this.demoOutlined = false;
-        this.demoLegacy = false;
+        this.demoCompatibility = false;
         break;
       case 1:
         this.demoOutlined = true;
-        this.demoLegacy = false;
+        this.demoCompatibility = false;
         break;
       case 2:
         this.demoOutlined = false;
-        this.demoLegacy = true;
+        this.demoCompatibility = true;
         break;
     }
   }
@@ -45,15 +45,15 @@ class ApiDemo extends ArcDemoPage {
     switch (state) {
       case 0:
         this.miniOutlined = false;
-        this.miniLegacy = false;
+        this.miniCompatibility = false;
         break;
       case 1:
         this.miniOutlined = true;
-        this.miniLegacy = false;
+        this.miniCompatibility = false;
         break;
       case 2:
         this.miniOutlined = false;
-        this.miniLegacy = true;
+        this.miniCompatibility = true;
         break;
     }
   }
@@ -69,7 +69,7 @@ class ApiDemo extends ArcDemoPage {
       demoStates,
       darkThemeActive,
       demoOutlined,
-      demoLegacy
+      demoCompatibility
     } = this;
     return html`<section class="documentation-section">
       <h2>Interactive demo</h2>
@@ -87,7 +87,7 @@ class ApiDemo extends ArcDemoPage {
           slot="content"
           ?readOnly="${readOnly}"
           ?outlined="${demoOutlined}"
-          ?legacy="${demoLegacy}"></http-method-selector>
+          ?compatibility="${demoCompatibility}"></http-method-selector>
 
         <label slot="options" id="mainOptionsLabel">Options</label>
         <anypoint-checkbox
@@ -107,7 +107,7 @@ class ApiDemo extends ArcDemoPage {
       demoStates,
       darkThemeActive,
       miniOutlined,
-      miniLegacy
+      miniCompatibility
     } = this;
     return html`<section class="documentation-section">
       <h2>Version "mini"</h2>
@@ -121,7 +121,7 @@ class ApiDemo extends ArcDemoPage {
           slot="content"
           ?readOnly="${miniReadOnly}"
           ?outlined="${miniOutlined}"
-          ?legacy="${miniLegacy}"></http-method-selector-mini>
+          ?compatibility="${miniCompatibility}"></http-method-selector-mini>
 
         <label slot="options" id="mainOptionsLabel">Options</label>
         <anypoint-checkbox
