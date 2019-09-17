@@ -92,7 +92,8 @@ class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitEl
       outlined,
       readOnly,
       methodMenuOpened,
-      renderCustom
+      renderCustom,
+      noLabelFloat
     } = this;
     return html`
     <anypoint-radio-group
@@ -114,7 +115,7 @@ class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitEl
       ?compatibility="${compatibility}"
       ?outlined="${outlined}"
       ?disabled="${readOnly}"
-      nolabelfloat
+      ?nolabelfloat="${noLabelFloat}"
       aria-label="Select one of predefined other HTTP methods. Select custom to set custom method"
       @opened-changed="${this._openedHandler}">
       <label slot="label">Other</label>

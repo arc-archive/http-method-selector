@@ -56,6 +56,10 @@ export const HttpMethodSelectorMixin = (base) => class extends base {
        * @deprecated Use `compatibility` instead
        */
       legacy: { type: Boolean },
+      /**
+       * Makes the dropdown label to be hidden when has a value.
+       */
+      noLabelFloat: { type: Boolean }
     };
   }
 

@@ -70,7 +70,8 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
       outlined,
       readOnly,
       methodMenuOpened,
-      renderCustom
+      renderCustom,
+      noLabelFloat
     } = this;
     return html`
     ${renderCustom ? html`<anypoint-input
@@ -99,7 +100,7 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
       ?compatibility="${compatibility}"
       ?outlined="${outlined}"
       ?disabled="${readOnly}"
-      nolabelfloat
+      ?nolabelfloat="${noLabelFloat}"
       @opened-changed="${this._openedHandler}">
       <label slot="label">Method</label>
       <anypoint-listbox
