@@ -88,7 +88,7 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
       .value="${method}"
       @value-changed="${this._methodHandler}"
       ?disabled="${readOnly}"
-      nolabelfloat
+      ?nolabelfloat="${noLabelFloat}"
       ?readonly="${readOnly}"
       ?compatibility="${compatibility}"
       ?outlined="${outlined}">
