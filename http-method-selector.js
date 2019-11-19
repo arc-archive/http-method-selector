@@ -39,7 +39,7 @@ import { close } from '@advanced-rest-client/arc-icons/ArcIcons.js';
  * @appliesMixin HttpMethodSelectorMixin
  */
 class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitElement)) {
-  static get styles() {
+  get styles() {
     return css`
     :host {
       display: inline-flex;
@@ -101,7 +101,7 @@ class HttpMethodSelector extends HttpMethodSelectorMixin(EventsTargetMixin(LitEl
       renderCustom,
       noLabelFloat
     } = this;
-    return html`
+    return html`<style>${this.styles}</style>
     <anypoint-radio-group
       .selected="${method}"
       @selected-changed="${this._radioSelection}"
