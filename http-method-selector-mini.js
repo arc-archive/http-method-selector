@@ -36,7 +36,7 @@ import { close } from '@advanced-rest-client/arc-icons/ArcIcons.js';
  * @appliesMixin ArcBehaviors.HttpMethodSelectorMixin
  */
 class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(LitElement)) {
-  static get styles() {
+  get styles() {
     return css`:host {
       display: block;
     }
@@ -80,7 +80,7 @@ class HttpMethodSelectorMini extends HttpMethodSelectorMixin(EventsTargetMixin(L
       renderCustom,
       noLabelFloat
     } = this;
-    return html`
+    return html`<style>${this.styles}</style>
     ${renderCustom ? html`<anypoint-input
       class="custom-name"
       required
