@@ -1,12 +1,12 @@
 import { html } from 'lit-html';
-import { ArcDemoPage } from '@advanced-rest-client/arc-demo-helper/ArcDemoPage.js';
+import { DemoPage } from '@advanced-rest-client/arc-demo-helper';
 import '@advanced-rest-client/arc-demo-helper/arc-interactive-demo.js';
 import '@anypoint-web-components/anypoint-styles/colors.js';
 import '@anypoint-web-components/anypoint-checkbox/anypoint-checkbox.js';
 import '../http-method-selector.js';
 import '../http-method-selector-mini.js';
 
-class ApiDemo extends ArcDemoPage {
+class ComponentDemo extends DemoPage {
   constructor() {
     super();
 
@@ -17,6 +17,12 @@ class ApiDemo extends ArcDemoPage {
 
     this.componentName = 'http-method-selector';
     this.demoStates = ['Filled', 'Outlined', 'Anypoint'];
+    this.readOnly = false;
+    this.miniReadOnly = false;
+    this.miniOutlined = false;
+    this.miniCompatibility = false;
+    this.renderViewControls = true;
+
     this._mainDemoStateHandler = this._mainDemoStateHandler.bind(this);
     this._toggleMainOption = this._toggleMainOption.bind(this);
     this._miniStateHandler = this._miniStateHandler.bind(this);
@@ -24,43 +30,15 @@ class ApiDemo extends ArcDemoPage {
 
   _mainDemoStateHandler(e) {
     const state = e.detail.value;
-    switch (state) {
-      case 0:
-        this.demoOutlined = false;
-        this.demoCompatibility = false;
-        break;
-      case 1:
-        this.demoOutlined = true;
-        this.demoCompatibility = false;
-        break;
-      case 2:
-        this.demoOutlined = false;
-        this.demoCompatibility = true;
-        break;
-    }
+    this.demoOutlined = state === 1;
+    this.demoCompatibility = state === 2;
+    this._updateCompatibility();
   }
 
   _miniStateHandler(e) {
     const state = e.detail.value;
-    switch (state) {
-      case 0:
-        this.miniOutlined = false;
-        this.miniCompatibility = false;
-        break;
-      case 1:
-        this.miniOutlined = true;
-        this.miniCompatibility = false;
-        break;
-      case 2:
-        this.miniOutlined = false;
-        this.miniCompatibility = true;
-        break;
-    }
-  }
-
-  _toggleMainOption(e) {
-    const { name, checked } = e.target;
-    this[name] = checked;
+    this.miniOutlined = state === 1;
+    this.miniCompatibility = state === 2;
   }
 
   _demoTemplate() {
@@ -80,7 +58,7 @@ class ApiDemo extends ArcDemoPage {
 
       <arc-interactive-demo
         .states="${demoStates}"
-        @state-chanegd="${this._mainDemoStateHandler}"
+        @state-changed="${this._mainDemoStateHandler}"
         ?dark="${darkThemeActive}"
       >
         <http-method-selector
@@ -114,7 +92,7 @@ class ApiDemo extends ArcDemoPage {
 
       <arc-interactive-demo
         .states="${demoStates}"
-        @state-chanegd="${this._miniStateHandler}"
+        @state-changed="${this._miniStateHandler}"
         ?dark="${darkThemeActive}"
       >
         <http-method-selector-mini
@@ -142,6 +120,5 @@ class ApiDemo extends ArcDemoPage {
     `;
   }
 }
-const instance = new ApiDemo();
+const instance = new ComponentDemo();
 instance.render();
-window.demoInstance = instance;

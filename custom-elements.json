@@ -1,0 +1,294 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "http-method-selector-mini",
+      "path": "./http-method-selector-mini.js",
+      "description": "A HTTP method selector in a dropdown list of predefined HTTP methods.\n\n### Example\n\n```html\n<http-method-selector-mini></http-method-selector-mini>\n```",
+      "attributes": [
+        {
+          "name": "method",
+          "description": "Currently selected HTTP method.",
+          "type": "string"
+        },
+        {
+          "name": "methodMenuOpened",
+          "description": "Set to true when the user opens the dropdown menu",
+          "type": "boolean"
+        },
+        {
+          "name": "renderCustom",
+          "description": "When set it allows to render a custom method selector",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "description": "When set the editor is in read only mode.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "description": "Enables outlined theme.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "legacy",
+          "type": "boolean",
+          "deprecatedMessage": "Use `compatibility` instead"
+        },
+        {
+          "name": "noLabelFloat",
+          "description": "Makes the dropdown label to be hidden when has a value.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "method",
+          "attribute": "method",
+          "description": "Currently selected HTTP method.",
+          "type": "string"
+        },
+        {
+          "name": "methodMenuOpened",
+          "attribute": "methodMenuOpened",
+          "description": "Set to true when the user opens the dropdown menu",
+          "type": "boolean"
+        },
+        {
+          "name": "renderCustom",
+          "attribute": "renderCustom",
+          "description": "When set it allows to render a custom method selector",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "attribute": "readOnly",
+          "description": "When set the editor is in read only mode.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "attribute": "outlined",
+          "description": "Enables outlined theme.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "legacy",
+          "attribute": "legacy",
+          "type": "boolean",
+          "deprecatedMessage": "Use `compatibility` instead"
+        },
+        {
+          "name": "noLabelFloat",
+          "attribute": "noLabelFloat",
+          "description": "Makes the dropdown label to be hidden when has a value.",
+          "type": "boolean"
+        },
+        {
+          "name": "isPayload",
+          "type": "boolean"
+        },
+        {
+          "name": "onmethod",
+          "description": "Registers a callback function for `method-changed` event",
+          "type": "EventListener"
+        },
+        {
+          "name": "onispayload",
+          "description": "Registers a callback function for `ispayload-changed` event",
+          "type": "EventListener"
+        },
+        {
+          "name": "standardMethods",
+          "type": "string[]"
+        },
+        {
+          "name": "inputElement",
+          "type": "AnypointInput"
+        },
+        {
+          "name": "eventsTarget",
+          "description": "By default the element listens on the `window` object. If this value is set,\nthen all events listeners will be attached to this object instead of `window`.",
+          "type": "EventTarget"
+        }
+      ],
+      "events": [
+        {
+          "name": "method-changed"
+        },
+        {
+          "name": "ispayload-changed"
+        },
+        {
+          "name": "rendercustom-changed"
+        },
+        {
+          "name": "request-is-payload-changed"
+        },
+        {
+          "name": "request-method-changed"
+        }
+      ]
+    },
+    {
+      "name": "http-method-selector",
+      "path": "./http-method-selector.js",
+      "attributes": [
+        {
+          "name": "method",
+          "description": "Currently selected HTTP method.",
+          "type": "string"
+        },
+        {
+          "name": "methodMenuOpened",
+          "description": "Set to true when the user opens the dropdown menu",
+          "type": "boolean"
+        },
+        {
+          "name": "renderCustom",
+          "description": "When set it allows to render a custom method selector",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "description": "When set the editor is in read only mode.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "description": "Enables outlined theme.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "legacy",
+          "type": "boolean",
+          "deprecatedMessage": "Use `compatibility` instead"
+        },
+        {
+          "name": "noLabelFloat",
+          "description": "Makes the dropdown label to be hidden when has a value.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "method",
+          "attribute": "method",
+          "description": "Currently selected HTTP method.",
+          "type": "string"
+        },
+        {
+          "name": "methodMenuOpened",
+          "attribute": "methodMenuOpened",
+          "description": "Set to true when the user opens the dropdown menu",
+          "type": "boolean"
+        },
+        {
+          "name": "renderCustom",
+          "attribute": "renderCustom",
+          "description": "When set it allows to render a custom method selector",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "attribute": "readOnly",
+          "description": "When set the editor is in read only mode.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "attribute": "outlined",
+          "description": "Enables outlined theme.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "legacy",
+          "attribute": "legacy",
+          "type": "boolean",
+          "deprecatedMessage": "Use `compatibility` instead"
+        },
+        {
+          "name": "noLabelFloat",
+          "attribute": "noLabelFloat",
+          "description": "Makes the dropdown label to be hidden when has a value.",
+          "type": "boolean"
+        },
+        {
+          "name": "isPayload",
+          "type": "boolean"
+        },
+        {
+          "name": "onmethod",
+          "description": "Registers a callback function for `method-changed` event",
+          "type": "EventListener"
+        },
+        {
+          "name": "onispayload",
+          "description": "Registers a callback function for `ispayload-changed` event",
+          "type": "EventListener"
+        },
+        {
+          "name": "standardMethods",
+          "type": "string[]"
+        },
+        {
+          "name": "inputElement",
+          "type": "AnypointInput"
+        },
+        {
+          "name": "eventsTarget",
+          "description": "By default the element listens on the `window` object. If this value is set,\nthen all events listeners will be attached to this object instead of `window`.",
+          "type": "EventTarget"
+        }
+      ],
+      "events": [
+        {
+          "name": "method-changed"
+        },
+        {
+          "name": "ispayload-changed"
+        },
+        {
+          "name": "rendercustom-changed"
+        },
+        {
+          "name": "request-is-payload-changed"
+        },
+        {
+          "name": "request-method-changed"
+        }
+      ]
+    }
+  ]
+}
