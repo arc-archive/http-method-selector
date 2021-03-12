@@ -1,8 +1,4 @@
-[![Published on NPM](https://img.shields.io/npm/v/@advanced-rest-client/http-method-selector.svg)](https://www.npmjs.com/package/@advanced-rest-client/http-method-selector)
-
-[![Build Status](https://travis-ci.org/advanced-rest-client/http-method-selector.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/http-method-selector)
-
-## &lt;http-method-selector&gt;
+# http-method-selector
 
 A HTTP method selector. Displays list of radio buttons with common http methods and a dropdown with less common but still valid methods.
 
@@ -13,10 +9,15 @@ It also allows to define own method.
 <http-method-selector-mini method="PUT" is-payload></http-method-selector-mini>
 ```
 
+[![Published on NPM](https://img.shields.io/npm/v/@advanced-rest-client/http-method-selector.svg)](https://www.npmjs.com/package/@advanced-rest-client/http-method-selector)
+
+[![Tests and publishing](https://github.com/advanced-rest-client/http-method-selector/actions/workflows/deployment.yml/badge.svg)](https://github.com/advanced-rest-client/http-method-selector/actions/workflows/deployment.yml)
+
 ## Usage
 
 ### Installation
-```
+
+```sh
 npm install --save @advanced-rest-client/http-method-selector
 ```
 
@@ -80,14 +81,13 @@ class SampleElement extends PolymerElement {
 customElements.define('sample-element', SampleElement);
 ```
 
-### Installation
+## Development
 
 ```sh
 git clone https://github.com/advanced-rest-client/http-method-selector
 cd http-method-selector
 npm install
 ```
-
 
 ### Running the demo locally
 
@@ -96,10 +96,7 @@ npm start
 ```
 
 ### Running the tests
+
 ```sh
 npm test
 ```
-
-## API components
-
-This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)

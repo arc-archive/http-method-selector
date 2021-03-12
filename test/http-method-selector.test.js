@@ -5,25 +5,37 @@ import {
   nextFrame,
   aTimeout
 } from '@open-wc/testing';
-import * as sinon from 'sinon/pkg/sinon-esm.js';
+import * as sinon from 'sinon';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions.js';
 import '../http-method-selector.js';
 
-describe('<http-method-selector>', function() {
+/** @typedef {import('@anypoint-web-components/anypoint-radio-button/src/AnypointRadioButtonElement').AnypointRadioButtonElement} AnypointRadioButtonElement */
+/** @typedef {import('../index').HttpMethodSelectorElement} HttpMethodSelectorElement */
+
+describe('HttpMethodSelectorElement', () => {
+  /**
+   * @returns {Promise<HttpMethodSelectorElement>}
+   */
   async function basicFixture() {
-    return await fixture(html `
+    return fixture(html `
       <http-method-selector></http-method-selector>
     `);
   }
 
+  /**
+   * @returns {Promise<HttpMethodSelectorElement>}
+   */
   async function customFixture() {
-    return await fixture(html `
+    return fixture(html `
       <http-method-selector rendercustom></http-method-selector>
     `);
   }
 
+  /**
+   * @returns {Promise<HttpMethodSelectorElement>}
+   */
   async function readonlyFixture() {
-    return await fixture(html `
+    return fixture(html `
       <http-method-selector readonly></http-method-selector>
     `);
   }
@@ -33,21 +45,21 @@ describe('<http-method-selector>', function() {
       bubbles: true,
       composed: true,
       cancelable: true,
-      detail: detail
+      detail
     });
     (node || document).dispatchEvent(e);
     return e;
   }
 
   describe('basics', () => {
-    let element;
+    let element = /** @type HttpMethodSelectorElement */ (null);
     beforeEach(async () => {
       element = await basicFixture();
     });
 
     it('can be initialized via createElement', () => {
-      const element = document.createElement('http-method-selector');
-      assert.ok(element);
+      const inst = document.createElement('http-method-selector');
+      assert.ok(inst);
     });
 
     it('isPayload is false for GET method', () => {
@@ -88,7 +100,7 @@ describe('<http-method-selector>', function() {
 
 
   describe('events', () => {
-    let element;
+    let element = /** @type HttpMethodSelectorElement */ (null);
     beforeEach(async () => {
       element = await basicFixture();
     });
@@ -123,7 +135,8 @@ describe('<http-method-selector>', function() {
     });
 
     it('request-method-changed contains a value', (done) => {
-      element.addEventListener('request-method-changed', function(e) {
+      element.addEventListener('request-method-changed', (e) => {
+        // @ts-ignore
         assert.equal(element.method, e.detail.value);
         done();
       });
@@ -138,7 +151,8 @@ describe('<http-method-selector>', function() {
     });
 
     it('request-is-payload-changed contains a value', (done) => {
-      element.addEventListener('request-is-payload-changed', function(e) {
+      element.addEventListener('request-is-payload-changed', (e) => {
+        // @ts-ignore
         assert.isTrue(e.detail.value);
         done();
       });
@@ -159,7 +173,7 @@ describe('<http-method-selector>', function() {
       const element = await basicFixture();
       element.method = 'PUT';
       await nextFrame();
-      const node = element.shadowRoot.querySelector('anypoint-radio-button[name="PUT"]');
+      const node = /** @type AnypointRadioButtonElement */ (element.shadowRoot.querySelector('anypoint-radio-button[name="PUT"]'));
       assert.isTrue(node.checked);
     });
 
@@ -186,13 +200,13 @@ describe('<http-method-selector>', function() {
       fire('request-method-changed', {
         value: 'POST'
       });
-      await aTimeout();
+      await aTimeout(0);
       assert.equal(spy.callCount, 1);
     });
 
     it('closes custom method input and restores defaults', async () => {
       const element = await customFixture();
-      element.value = 'CUSTOM';
+      element.method = 'CUSTOM';
       await nextFrame();
       const button = element.shadowRoot.querySelector('anypoint-icon-button');
       MockInteractions.tap(button);
@@ -210,7 +224,7 @@ describe('<http-method-selector>', function() {
   });
 
   describe('onmethod', () => {
-    let element;
+    let element = /** @type HttpMethodSelectorElement */ (null);
     beforeEach(async () => {
       element = await basicFixture();
     });
@@ -252,7 +266,7 @@ describe('<http-method-selector>', function() {
   });
 
   describe('onispayload', () => {
-    let element;
+    let element = /** @type HttpMethodSelectorElement */ (null);
     beforeEach(async () => {
       element = await basicFixture();
     });
