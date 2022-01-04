@@ -312,7 +312,7 @@ export const HttpMethodSelectorMixin = (base) => class extends EventsTargetMixin
       return;
     }
     if (method && !this.renderCustom) {
-      let m = method && method.toLowerCase();
+      let m = String(method).toLowerCase();
       m = m.trim();
       if (m) {
         if (this.standardMethods.indexOf(m) === -1) {

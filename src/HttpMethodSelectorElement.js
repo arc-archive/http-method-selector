@@ -39,7 +39,7 @@ export class HttpMethodSelectorElement extends HttpMethodSelectorMixin(LitElemen
   }
 
   _radioSelection(e) {
-    this.method = e.detail.value;
+    this.method = e.target.selected;
   }
 
   render() {
@@ -58,7 +58,7 @@ export class HttpMethodSelectorElement extends HttpMethodSelectorMixin(LitElemen
     return html`
     <anypoint-radio-group
       .selected="${method}"
-      @selected-changed="${this._radioSelection}"
+      @selected="${this._radioSelection}"
       ?disabled="${readOnly}"
       attrforselected="name"
       aria-label="Select one of predefined HTTP methods"
